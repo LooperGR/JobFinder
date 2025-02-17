@@ -23,5 +23,7 @@ const Job = db.define('job', {
     }
 });
 
+//O createdAt e updatedAt precisam estar criados no banco, pois o sequelize os envia automaticamente
+
 //Para ser exportado
 module.exports = Job
