@@ -1,6 +1,8 @@
 const express = require('express');
-const db = require('./db/connection')
+const exphbs = require('express-handlebars');
+const db = require('./db/connection');
 const app = express();
+const path = require('path');
 const bodyParser = require('body-parser');
 
 //API
@@ -13,7 +15,15 @@ app.listen(PORT, function(){
 //Body Parser
 app.use(bodyParser.urlencoded({ extended: false}));
 
-//Conexão Banco
+//Handle bars
+app.set('views', path.join(__dirname, 'viewes'));
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+//Static folder
+app.use(express.static(path, join(__dirname, 'public')));
+
+//DB Connection
 db
     .authenticate()
     .then(() => {
