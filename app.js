@@ -35,7 +35,7 @@ db
 
 //Rota
 app.get('/', (req, res) => {
-    res.send('Teste');
+    res.render('index');
 });
 
 //Rota Jobs
