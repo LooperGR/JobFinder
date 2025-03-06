@@ -4,6 +4,7 @@ const db = require('./db/connection');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
+const Job = require('./models/Job');
 
 //API
 const PORT = 3000; //Porta de acesso
@@ -16,7 +17,7 @@ app.listen(PORT, function(){
 app.use(bodyParser.urlencoded({ extended: false}));
 
 //Handle bars
-app.set('views', path.join(__dirname, 'viewes'));
+app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
@@ -35,7 +36,14 @@ db
 
 //Rota
 app.get('/', (req, res) => {
-    res.render('index');
+    Job.findAll({order: [
+        ['createdAt', 'DESC']
+    ]})
+    .then(jobs => {
+        res.render('index', {
+            jobs
+        });
+    });
 });
 
 //Rota Jobs
